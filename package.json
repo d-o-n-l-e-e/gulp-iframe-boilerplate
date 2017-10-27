@@ -29,7 +29,6 @@
     "gulp-file-include": "^0.14.0",
     "gulp-inline-source": "^3.1.0",
     "gulp-notify": "^2.2.0",
-    "gulp-sass": "^2.3.2",
-    "gulp-sourcemaps": "^1.6.0"
+    "gulp-sass": "^2.3.2"
   }
 }

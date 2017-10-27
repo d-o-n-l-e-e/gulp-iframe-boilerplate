@@ -5,21 +5,16 @@ var autoprefixer  = require('gulp-autoprefixer');
 var includeFiles  = require('gulp-file-include');
 var inlinesource  = require('gulp-inline-source');
 var notify        = require('gulp-notify');
-var sourcemaps    = require('gulp-sourcemaps');
 var sass          = require('gulp-sass');
 
 // BUILD FOLDER
 var dist = './dist';
 
-var build = [
-  'inline-sources'
-]
-
 // DEFAULT
-gulp.task('default', build);
+gulp.task('default', ['inline-sources']);
 
 // WATCH
-gulp.task('watch',[...build],function() {
+gulp.task('watch',['inline-sources'],function() {
   gulp.watch(['./src/scss/**/*.scss','./src/js/**/*.js','./src/*.html'], ['inline-sources']);
 });
 
@@ -28,7 +23,9 @@ gulp.task('watch',[...build],function() {
 // COMPILE HTML FILES
 gulp.task('inline-sources',['sass', 'scripts'], function() {
   var options = {
-      compress: false
+      compress: false,
+      pretty: true,
+      rootpath: dist
   };
   return gulp.src('./src/*.html')
   .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
@@ -39,7 +36,6 @@ gulp.task('inline-sources',['sass', 'scripts'], function() {
 // COMPILE MAIN.JS
 gulp.task('scripts', function() {
   return gulp.src('./src/js/**.js')
-    .pipe(sourcemaps.init())
     .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
     .on('error', function(error) {
       var args = Array.prototype.slice.call(arguments);
@@ -50,14 +46,12 @@ gulp.task('scripts', function() {
       console.log(error)
       this.emit('end')
     })
-    .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest(dist+'/js'))
 });
 
 // COMPILE MAIN.CSS
 gulp.task('sass', function() {
   return gulp.src('./src/scss/**.scss')
-    .pipe(sourcemaps.init())
     .pipe(sass({outputStyle:'compact'}))
     .on('error', function(error) {
       var args = Array.prototype.slice.call(arguments);
@@ -77,6 +71,5 @@ gulp.task('sass', function() {
       browsers : ['last 5 versions'],
       cascade  : false
     }))
-    .pipe(sourcemaps.write('maps'))
     .pipe(gulp.dest(dist+'/css'));
 });
