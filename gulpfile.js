@@ -26,21 +26,20 @@ gulp.task('sync',['watch'], function() {
     server: dist,
     port: 4000
   });
-  var delay = 500;
   // reload browser when html pages in dist folder update
+  var debounce = 500;
   gulp.watch(dist+'/*.html').on('change', function(){
-    if (delay) {
+    if (debounce) {
       setTimeout(function(){
         browserSync.reload();
-        delay = 500;
-      }, delay);
-      delay = null;
+        debounce = 500;
+      }, debounce);
+      debounce = null;
     }
   });
 });
 
 /*---------------------------------------------------------------*/
-
 
 // COMPILE HTML FILES
 gulp.task('inline-sources',['sass', 'scripts'], function() {
@@ -55,7 +54,7 @@ gulp.task('inline-sources',['sass', 'scripts'], function() {
   .pipe(gulp.dest(dist));
 });
 
-// COMPILE MAIN.JS
+// COMPILE JS
 gulp.task('scripts', function() {
   return gulp.src('./src/js/**.js')
     .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
@@ -71,7 +70,7 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest(dist+'/js'))
 });
 
-// COMPILE MAIN.CSS
+// COMPILE SCSS
 gulp.task('sass', function() {
   return gulp.src('./src/scss/**.scss')
     .pipe(sass({outputStyle:'compact'}))
