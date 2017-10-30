@@ -21,14 +21,14 @@
   },
   "homepage": "",
   "dependencies": {
-    "web-resource-inliner": "^4.2.0"
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
+    "gulp-notify": "^2.2.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-file-include": "^0.14.0",
     "gulp-inline-source": "^3.1.0",
-    "gulp-notify": "^2.2.0",
     "gulp-sass": "^2.3.2"
   }
 }

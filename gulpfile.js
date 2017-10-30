@@ -1,5 +1,6 @@
 'use strict';
 
+var browserSync   = require("browser-sync").create();
 var gulp          = require('gulp');
 var autoprefixer  = require('gulp-autoprefixer');
 var includeFiles  = require('gulp-file-include');
@@ -14,11 +15,23 @@ var dist = './dist';
 gulp.task('default', ['inline-sources']);
 
 // WATCH
-gulp.task('watch',['inline-sources'],function() {
+gulp.task('watch',['inline-sources'], function() {
   gulp.watch(['./src/scss/**/*.scss','./src/js/**/*.js','./src/*.html'], ['inline-sources']);
 });
 
+// SYNC + WATCH
+gulp.task('sync',['watch'], function() {
+  // serve dist folder on port 4000
+  browserSync.init({
+    server: dist,
+    port: 4000
+  });
+  // reload browser when html pages in dist folder update
+  gulp.watch(dist+'/*.html').on('change', browserSync.reload);
+});
+
 /*---------------------------------------------------------------*/
+
 
 // COMPILE HTML FILES
 gulp.task('inline-sources',['sass', 'scripts'], function() {
@@ -30,7 +43,8 @@ gulp.task('inline-sources',['sass', 'scripts'], function() {
   return gulp.src('./src/*.html')
   .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
   .pipe(inlinesource(options))
-  .pipe(gulp.dest(dist));
+  .pipe(gulp.dest(dist))
+  .pipe(browserSync.stream());
 });
 
 // COMPILE MAIN.JS
