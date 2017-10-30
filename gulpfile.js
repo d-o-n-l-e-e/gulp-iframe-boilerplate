@@ -26,8 +26,17 @@ gulp.task('sync',['watch'], function() {
     server: dist,
     port: 4000
   });
+  var delay = 500;
   // reload browser when html pages in dist folder update
-  gulp.watch(dist+'/*.html').on('change', browserSync.reload);
+  gulp.watch(dist+'/*.html').on('change', function(){
+    if (delay) {
+      setTimeout(function(){
+        browserSync.reload();
+        delay = 500;
+      }, delay);
+      delay = null;
+    }
+  });
 });
 
 /*---------------------------------------------------------------*/
@@ -43,8 +52,7 @@ gulp.task('inline-sources',['sass', 'scripts'], function() {
   return gulp.src('./src/*.html')
   .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
   .pipe(inlinesource(options))
-  .pipe(gulp.dest(dist))
-  .pipe(browserSync.stream());
+  .pipe(gulp.dest(dist));
 });
 
 // COMPILE MAIN.JS
