@@ -15,8 +15,8 @@ var dist = './dist';
 gulp.task('default', ['inline-sources']);
 
 // WATCH
-gulp.task('watch',['inline-sources'], function() {
-  gulp.watch(['./src/scss/**/*.scss','./src/js/**/*.js','./src/*.html'], ['inline-sources']);
+gulp.task('watch',['compile'], function() {
+  gulp.watch(['./src/scss/**/*.scss','./src/js/**/*.js','./src/*.html'], ['compile']);
 });
 
 // SYNC + WATCH
@@ -42,15 +42,20 @@ gulp.task('sync',['watch'], function() {
 /*---------------------------------------------------------------*/
 
 // COMPILE HTML FILES
-gulp.task('inline-sources',['sass', 'scripts'], function() {
-  var options = {
+gulp.task('compile',['sass', 'scripts'], function() {
+  return gulp.src('./src/*.html')
+  .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
+  .pipe(gulp.dest(dist));
+});
+
+// INLINE EXTERNAL FILES
+gulp.task('inline-sources',['compile'], function() {
+  return gulp.src(dist+'/*.html')
+  .pipe(inlinesource({
       compress: false,
       pretty: true,
       rootpath: dist
-  };
-  return gulp.src('./src/*.html')
-  .pipe(includeFiles({prefix: '@@', basepath: '@file'}))
-  .pipe(inlinesource(options))
+  }))
   .pipe(gulp.dest(dist));
 });
 
