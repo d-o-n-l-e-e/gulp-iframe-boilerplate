@@ -29,6 +29,7 @@
     "gulp-autoprefixer": "^3.1.0",
     "gulp-file-include": "^0.14.0",
     "gulp-inline-source": "^3.1.0",
+    "gulp-rimraf": "^0.2.1",
     "gulp-sass": "^2.3.2"
   }
 }

@@ -6,13 +6,14 @@ var autoprefixer  = require('gulp-autoprefixer');
 var includeFiles  = require('gulp-file-include');
 var inlinesource  = require('gulp-inline-source');
 var notify        = require('gulp-notify');
+var clean         = require('gulp-rimraf');
 var sass          = require('gulp-sass');
 
 // BUILD FOLDER
 var dist = './dist';
 
 // DEFAULT
-gulp.task('default', ['inline-sources']);
+gulp.task('default', ['build']);
 
 // WATCH
 gulp.task('watch',['compile'], function() {
@@ -57,6 +58,12 @@ gulp.task('inline-sources',['compile'], function() {
       rootpath: dist
   }))
   .pipe(gulp.dest(dist));
+});
+
+// CLEAN UP DIST
+gulp.task('build',['inline-sources'], function() {
+  return gulp.src([dist+'/css', dist+'/js'], { read: false })
+  .pipe(clean());
 });
 
 // COMPILE JS
