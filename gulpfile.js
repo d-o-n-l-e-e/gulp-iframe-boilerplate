@@ -87,18 +87,17 @@ gulp.task('sass', function() {
   return gulp.src('./src/scss/**.scss')
     .pipe(sass({outputStyle:'compact'}))
     .on('error', function(error) {
-      var args = Array.prototype.slice.call(arguments);
+      let args = Array.prototype.slice.call(arguments);
       notify.onError({
-        title   : 'Error: ' + error.relativePath,
-        message : error.messageOriginal
+        title   : 'SASS Error',
+        message : error.relativePath
       }).apply(this, args);
       console.log('\n');
-      console.log('File:   ', error.file);
-      console.log('Line:   ', error.line);
-      console.log('Column: ', error.column);
+      console.log('File:', error.file);
+      console.log('Line:', error.line, ' | Column:', error.column);
       console.log('\n');
       console.log(error.formatted);
-      this.emit('end')
+      this.emit('end');
     })
     .pipe(autoprefixer({
       browsers : ['last 5 versions'],
