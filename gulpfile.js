@@ -29,7 +29,7 @@ gulp.task('watch',['compile'], function() {
 });
 
 // SYNC + WATCH (PHP SERVER)
-gulp.task('sync',['stop', 'watch'], function() {
+gulp.task('sync',['kill-php', 'watch'], function() {
   // run php server
   php.server({ base: dist, port: 8010}, function() {
     browserSync.init({
@@ -39,8 +39,8 @@ gulp.task('sync',['stop', 'watch'], function() {
   });
 });
 
-gulp.task('stop', function() {
-  // kill exisiting php
+// kills all php processes, prevents error when building server if server exists
+gulp.task('kill-php', function() {
   exec('pkill php', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
