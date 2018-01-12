@@ -13,24 +13,20 @@
     "url": "https://github.com/donaldlee/gulp-iframe-boilerplate"
   },
   "keywords": [
-    "sass",
-    "auto-prefixer"
+    "auto-prefixer",
+    "sass"
   ],
-  "bugs": {
-    "url": "https://github.com/donaldlee/gulp-iframe-boilerplate/issues"
-  },
-  "homepage": "",
   "dependencies": {
-    "browser-sync": "^2.18.13",
-    "gulp": "^3.9.1",
-    "gulp-notify": "^2.2.0",
-    "gulp-rimraf": "^0.2.1"
   },
   "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-connect-php7": "^1.0.1",
     "gulp-file-include": "^0.14.0",
     "gulp-inline-source": "^3.1.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rimraf": "^0.2.1",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^2.6.3"
   }
